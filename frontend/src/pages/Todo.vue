@@ -16,7 +16,7 @@
       <q-list bordered separator>
         <q-item v-for="(todo) in filteredTodos" :key="todo.id" clickable v-ripple @blur="hovering = null" @mouseover="hovering = todo.id">
           <q-item-section avatar>
-            <q-checkbox v-model="todo.isDone" />
+            <q-checkbox :modelValue="todo.isDone" @click="toggleIsDone(todo)"/>
           </q-item-section>
           <q-item-section :class="{ 'text-strike': todo.isDone }">
             {{ todo.desc }}
@@ -45,8 +45,15 @@
 
 <script>
 export default {
+  mounted () {
+    this.todosSrvc = this.$wingsApp.wingsService('todos')
+    this.todosSrvc.on('dataChange', (todos) => {
+      this.todos = todos
+    }).init()
+  },
   data () {
     return {
+      todosSrvc: null,
       showBy: 'all',
       hovering: null,
       description: 'hello',
@@ -78,6 +85,11 @@ export default {
     deleteTask: function (t) {
       const i = this.todos.findIndex(todo => t.id === todo.id)
       this.todos.splice(i, 1)
+    },
+    toggleIsDone (todo) {
+      this.todosSrvc.patch(todo._id, {
+        isDone: !todo.isDone
+      })
     }
   },
   computed: {
