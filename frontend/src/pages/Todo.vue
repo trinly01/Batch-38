@@ -88,8 +88,9 @@ export default {
       }
     },
     deleteTask: function (t) {
-      const i = this.todos.findIndex(todo => t.id === todo.id)
-      this.todos.splice(i, 1)
+      // const i = this.todos.findIndex(todo => t.id === todo.id)
+      // this.todos.splice(i, 1)
+      this.todosSrvc.remove(t._id)
     },
     toggleIsDone (todo) {
       this.todosSrvc.patch(todo._id, {
