@@ -48,7 +48,8 @@ export default {
   mounted () {
     this.todosSrvc = this.$wingsApp.wingsService('todos')
     this.todosSrvc.on('dataChange', (todos) => {
-      this.todos = todos
+      console.log(todos)
+      this.todos = [...todos]
     }).init()
   },
   data () {
@@ -74,8 +75,12 @@ export default {
   methods: {
     addTask () {
       if (this.description) {
-        this.todos.unshift({
-          id: Date.now(),
+        // this.todos.unshift({
+        //   id: Date.now(),
+        //   isDone: false,
+        //   desc: this.description
+        // })
+        this.todosSrvc.create({
           isDone: false,
           desc: this.description
         })
