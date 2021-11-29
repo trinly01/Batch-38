@@ -40,6 +40,7 @@
           ]"
         />
       </div>
+      <q-btn @click="print">print</q-btn>
       <pie-chart :donut="true" :data="[['Active', itemsLeft], ['Completed', todos.length - itemsLeft]]"></pie-chart>
     </div>
   </div>
@@ -105,7 +106,27 @@ export default {
       this.todosSrvc.patch(todo._id, {
         isDone: !todo.isDone
       })
-    }
+    },
+    print () {
+      const dd = {
+        content: [
+          {
+            table: {
+              body: [
+                ['Desc', 'isDone'],
+                ...this.todos.map(t => [t.desc, t.isDone])
+                // ['YAoYo2oLJx9kFvn6', '1', false]
+                // ['YAoYo2oLJx9kFvn6', 'hello', false]
+                // ['YAoYo2oLJx9kFvn6', 'hello', trie]
+              ]
+            }
+          }
+        ]
+      }
+      this.$pdfMake.createPdf(dd).print()
+    },
+    download () {},
+    open () {}
   },
   computed: {
     itemsLeft () {
