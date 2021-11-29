@@ -11,6 +11,7 @@
       <q-btn flat round dense icon="whatshot" @click="$router.push('/')" />
     </q-toolbar>
     <div class="q-ma-md">
+      <greet v-model="name" fname="Trinmar" lname="pogi" @updateParent="(newData) => name=newData " />
       <q-input @keyup.enter="addTask" v-model="description" label="type your task here" />
       <q-btn icon="add_circle" label="add" outline color="primary" @click="addTask"  />
       <q-list bordered separator>
@@ -44,7 +45,12 @@
 </template>
 
 <script>
+import greet from 'components/greet.vue'
+
 export default {
+  components: {
+    greet
+  },
   mounted () {
     this.todosSrvc = this.$wingsApp.wingsService('todos')
     this.todosSrvc.on('dataChange', (todos) => {
@@ -54,6 +60,7 @@ export default {
   },
   data () {
     return {
+      name: '',
       todosSrvc: null,
       showBy: 'all',
       hovering: null,
@@ -75,6 +82,7 @@ export default {
   methods: {
     addTask () {
       if (this.description) {
+        console.log('ang pogi ko talaga', this.description)
         // this.todos.unshift({
         //   id: Date.now(),
         //   isDone: false,
