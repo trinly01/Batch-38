@@ -40,6 +40,7 @@
           ]"
         />
       </div>
+      <pie-chart :donut="true" :data="[['Active', itemsLeft], ['Completed', todos.length - itemsLeft]]"></pie-chart>
     </div>
   </div>
 </template>
